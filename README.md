@@ -27,6 +27,6 @@ This template is intended to be used with [degit](https://github.com/Rich-Harris
 ## Available npm scripts
 
 - `npm start`: Starts vite dev server & serves project at `http://localhost:3000`
-- `npm run format`: Formats your files with Prettier
+- `npm run format`: Formats your files with Prettier & ESLint
 - `npm run build`: Does TypeScript transpilation & bundling of all your assets into the `dist` folder
 - `npm run preview`: Serves the built web app at `http://localhost:4173`
