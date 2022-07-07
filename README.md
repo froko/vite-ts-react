@@ -14,6 +14,7 @@ This template is intended to be used with [degit](https://github.com/Rich-Harris
 - [Prettier](https://prettier.io/)
 - [ESLint](https://eslint.org/)
 - [Husky](https://typicode.github.io/husky/#/)
+- [Storybook](https://storybook.js.org/)
 
 ## Installation Procedure
 
@@ -30,3 +31,54 @@ This template is intended to be used with [degit](https://github.com/Rich-Harris
 - `npm run format`: Formats your files with Prettier & ESLint
 - `npm run build`: Does TypeScript transpilation & bundling of all your assets into the `dist` folder
 - `npm run preview`: Serves the built web app at `http://localhost:4173`
+
+## Install Storybook
+
+- `npx sb init`
+- `npm install -D react-is`
+- `rm -rf src/stories`
+- Patch `.storybook/main.js`:
+
+  ```javascript
+  const macrosPlugin = require('vite-plugin-babel-macros');
+  const WindiCSS = require('vite-plugin-windicss');
+  const svgrPlugin = require('vite-plugin-svgr');
+
+  module.exports = {
+    stories: ['../src/**/*.stories.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
+    addons: ['@storybook/addon-links', '@storybook/addon-essentials', '@storybook/addon-interactions'],
+    framework: '@storybook/react',
+    core: {
+      builder: '@storybook/builder-vite'
+    },
+    async viteFinal(config) {
+      config.plugins = [
+        ...config.plugins,
+        macrosPlugin.default(),
+        WindiCSS.default(),
+        svgrPlugin.default({
+          svgrOptions: {
+            icon: true
+          }
+        })
+      ];
+      return config;
+    }
+  };
+  ```
+
+- Patch `.storybook/preview.js`:
+
+  ```javascript
+  import '../src/index.css';
+
+  export const parameters = {
+    actions: { argTypesRegex: '^on[A-Z].*' },
+    controls: {
+      matchers: {
+        color: /(background|color)$/i,
+        date: /Date$/
+      }
+    }
+  };
+  ```
