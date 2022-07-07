@@ -9,7 +9,6 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 export default defineConfig({
   plugins: [
     react(),
-    envCompatible(),
     macrosPlugin(),
     WindiCSS(),
     svgrPlugin({
@@ -17,6 +16,7 @@ export default defineConfig({
         icon: true
       }
     }),
+    envCompatible(),
     tsconfigPaths()
   ]
 });
